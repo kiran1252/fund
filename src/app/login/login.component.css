@@ -82,9 +82,9 @@
 }
 
 .login {
-	padding: 30px;
-	padding-top: 62px;
-	background: #0000009e;
+	padding: 61px;
+    padding-top: 59px;
+    background: #e78c53;
 }
 
 .login__field {
@@ -120,7 +120,6 @@
 	font-size: 14px;
 	margin-top: 30px;
     padding: 9px 10px;
-	border-radius: 26px;
 	border: 1px solid #D4D3E8;
 	text-transform: uppercase;
 	font-weight: 700;

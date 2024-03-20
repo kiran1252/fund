@@ -33,36 +33,43 @@
     <div class="panel-heading">Share Holder Details</div>
     <div class="panel-body">
       <h5>
-        Name : {{ selectedCustomer.name }}(<span style="color: red;">{{ selectedCustomer.shares }}</span>)
-      </h5>
-      <h5>Per Share Price - {{selectedCustomer.price | currency:'INR':true: '1.0-0' }}</h5>
+        <b>Name : {{ selectedCustomer.name }}(<span style="color: red;">{{ selectedCustomer.shares }}</span>)
+        </b></h5>
+      <h5><b>Per Share Price - {{selectedCustomer.price | currency:'INR':true: '1.0-0' }} </b></h5>
+      <hr>
       <h5><b>Total Shares Amount - {{ (selectedCustomer.price * selectedCustomer.shares) | currency:'INR':true: '1.0-0'}}</b></h5>
-      <h5><b>Penalty - {{penaltyPerShareAmount | currency:'INR':true: '1.0-0'}}</b></h5>
+      
+      <h5><b>Shares Penalty - {{penaltyPerShareAmount | currency:'INR':true: '1.0-0'}}</b></h5>
       <h5><b>Intrest - {{intrestAmount | currency:'INR':true: '1.0-0'}}</b></h5>
       <h5><b>Intrest Penalty - {{penaltyIntrestAmount | currency:'INR':true: '1.0-0'}}</b></h5>
       <hr>
-      <h4><b>Total - {{((selectedCustomer.price * selectedCustomer.shares) + penaltyPerShareAmount + intrestAmount + penaltyIntrestAmount ) | currency:'INR':true: '1.0-0'}}</b></h4>
-        <table class="table table-bordered" >
+      <h4><b>Total Submission - {{((selectedCustomer.price * selectedCustomer.shares) + penaltyPerShareAmount + intrestAmount + penaltyIntrestAmount ) | currency:'INR':true: '1.0-0'}}</b></h4>
+        <hr>
+        <h4><b>History</b></h4>
+      <table class="table table-bordered" >
           <thead>
             <tr style="background: #064641">
-              <th>Sr.No</th>
-              <th>Name</th>
-              <th>S Amount</th>
+              <th>Month</th>
+              <th>Shares</th>
               <th>Loan</th>
-              <th>L Sub</th>
+              <th>Paid L</th>
               <th>Intrest</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of selectedCustomer.monthlyValue ; let i = index" style="color: #000;">
-              <td>
-                {{i + 1}}
-              </td>
               <td>{{ item.name }}</td>
               <td>{{ item.sharesamount | currency:'INR':true: '1.0-0' }}</td>
               <td>{{ item.loan | currency:'INR':true: '1.0-0' }}</td>
               <td>{{ item.loanSubmit | currency:'INR':true: '1.0-0' }}</td>
               <td>{{ item.loanIntrest | currency:'INR':true: '1.0-0' }}</td>
+            </tr>
+            <tr style="color: #000;font-weight: bold;">
+              <td >Total</td>
+              <td>{{ sharesamount | currency:'INR':true: '1.0-0' }}</td>
+              <td>{{ totalLoan | currency:'INR':true: '1.0-0' }}</td>
+              <td>{{ totalLoanSubmited | currency:'INR':true: '1.0-0' }}</td>
+              <td>{{ loanIntrest | currency:'INR':true: '1.0-0' }}</td>
             </tr>
           </tbody>
         </table>

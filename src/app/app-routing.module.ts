@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'cust', component: CustomerComponent,canActivate: [AuthGuard] },
   { path: 'new-cust', component: NewCustomerComponent,canActivate: [AuthGuard] },
   { path: 'monthly-entry', component: MonthlyEntryComponent,canActivate: [AuthGuard] },
-  { path: 'monthly-calculation', component: MonthlyCalculationComponent,canActivate: [AuthGuard] }
+  { path: 'monthly-calculation', component: MonthlyCalculationComponent}
 ];
 
 @NgModule({

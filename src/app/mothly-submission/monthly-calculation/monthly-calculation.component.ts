@@ -75,15 +75,20 @@ export class MonthlyCalculationComponent implements OnInit {
     }
   }
   intrestAmount = 0;
+  totalLoan = 0;
+  totalLoanSubmited = 0;
+  sharesamount = 0;
+  loanIntrest = 0;
   getIntrestCalculation() {
-    var totalLoan = 0;
-    var totalLoanSubmited = 0;
+  
     for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
       const element = this.selectedCustomer.monthlyValue[index];
-      totalLoan = totalLoan + element.loan;
-      totalLoanSubmited = totalLoanSubmited + element.loanSubmit;
+      this.totalLoan = this.totalLoan + element.loan;
+      this.totalLoanSubmited = this.totalLoanSubmited + element.loanSubmit;
+      this.loanIntrest = this.loanIntrest + element.loanIntrest;
+      this.sharesamount = this.sharesamount + element.sharesamount;
     }
-    totalLoan = totalLoan - totalLoanSubmited;
+    var totalLoan = this.totalLoan - this.totalLoanSubmited;
     if (totalLoan > 0) {
       this.intrestAmount = (totalLoan * this.settingData.intrest) / 100;
       this.getPenaltyOfIntrest();
