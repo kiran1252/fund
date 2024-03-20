@@ -1,64 +1,44 @@
-<button
-  type="button"
-  class="btn btn-primary"
-  style="float: right;
-  margin-bottom: 20px;
-  margin-right: 13px;"
-  routerLink="/new-cust"
->
-  New Expence
-</button>
-
-  <input
-    type="date"
-    class="form-control " style="width: 90%;
-    margin: 5% 0 0 5%;"
-    [(ngModel)]="filterDate"
-    (ngModelChange)="getCustomerList()"
-    id="name"
-  />
-
-<h4 class="mt-0">Expence List</h4>
-<!-- <div class="col-md-12 mb-2 p-0">
-  <div
-    class="col-md-6"
-    style=" margin-bottom: 10px; "
-  >
-    <input
-      [(ngModel)]="searchText"
-      placeholder="search name"
-      class="form-control"
-    />
+<div class="col-md-12 "><button type="button" class="btn btn-primary" style="float: right; margin-bottom: 20px"
+    routerLink="/new-cust">
+    Add New Share Holder
+  </button>
+</div>
+<h4 class="mt-0">Share Holder List</h4>
+<div class="col-md-12 mb-2 p-0">
+  <div class="col-xl-6 col-md-6 mb-2">
+    <div class="form-group">
+      <label for="sel1">Select Year:</label>
+      <select class="form-control" [(ngModel)]="filterOtion" (change)="getCustomerList()">
+        <option value="0">Select Year</option>
+        <option value="2023-2024">2023-2024</option>
+        <option value="2024-2025">2024-2025</option>
+        <option value="2025-2026">2025-2026</option>
+      </select>
+    </div>
   </div>
-</div> -->
-
-<table class="table table-bordered" style="color: #fff;">
-  <thead>
-    <tr style="background: #2c5154">
-      <th>Description</th>
-      <th>Cash/Online</th>
-      <th>Amount</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of dailyExpenceList | filter : searchText; let i = index">
-      <td>{{ item.name }}</td>
-      <td>{{ item.type | uppercase }}</td>
-      <td>{{ item.amount | currency : "&#8377;" }}</td>
-      <td style="padding-left: 6px;
-      padding-right: 0;">
-        <span
-          class="glyphicon glyphicon-edit"
-          style="cursor: pointer"
-          routerLink="/new-cust/{{ item.dailyExpenceId }}"
-        ></span>
-        <span
-          class="glyphicon glyphicon-trash ml-3"
-          style="cursor: pointer;    margin-left: 16px;"
-          (click)="deleteCustomer(item.dailyExpenceId)"
-        ></span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <div class="col-md-6">
+    <input [(ngModel)]="searchText" placeholder="search name" class="form-control" />
+  </div>
+</div>
+<div class="col-md-12 mt-2">
+  <table class="table table-bordered">
+    <thead>
+      <tr style="background: #064641">
+        <th>Name</th>
+        <th>Shares</th>
+        <th>Price(1S)</th>
+        <th>Year</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of customerList | filter : searchText; let i = index" [style.color]="item.isActive ? '#fff' : 'red'">
+        <td>
+          <b>{{ item.name }}</b>
+        </td>
+        <td>{{ item.shares }}</td>
+        <td>{{ item.price | currency:'INR':true: '1.0-0' }}</td>
+        <td>{{ item.year }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

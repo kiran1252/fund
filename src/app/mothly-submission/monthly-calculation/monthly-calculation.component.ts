@@ -1,0 +1,113 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { doc, collection, getDocs, deleteDoc, query, where, updateDoc, getDoc } from 'firebase/firestore/lite';
+import { forEach } from 'lodash';
+import { FirbaseService } from 'src/app/firbase.service';
+declare var $: any;
+@Component({
+  selector: 'app-monthly-calculation',
+  templateUrl: './monthly-calculation.component.html'
+})
+export class MonthlyCalculationComponent implements OnInit {
+  constructor(private firbaseService: FirbaseService) { }
+  customerList: any = [];
+  searchText: string = '';
+  keyword = 'name';
+  ngOnInit() {
+    //this.getCustomerList();
+  }
+  filterOtion: any = 0;
+  async getCustomerList() {
+    var colData = collection(this.firbaseService.db, 'Customer');
+    const q = query(
+      colData,
+      where('year', '==', this.filterOtion)
+    );
+    const data = await getDocs(q);
+    var customerList = data.docs.map((doc) => doc.data());
+    customerList.forEach((element: any) => {
+      element['id'] = element['customerId'];
+      this.customerList.push(element);
+    });
+    this.getSettings();
+  }
+  settingData: any = {};
+  async getSettings() {
+    var colData = collection(this.firbaseService.db, 'Settings');
+    const q = query(
+      colData,
+      where('year', '==', this.filterOtion)
+    );
+    const data = await getDocs(q);
+    var list = data.docs.map((doc) => doc.data());
+    this.settingData = list[0];
+    console.log(this.settingData);
+  }
+
+  selectedCustomer: any;
+  async selectEvent(item: any) {
+    const docRef = doc(this.firbaseService.db, 'Customer/' + item.customerId);
+    const docSnap = await getDoc(docRef);
+    this.selectedCustomer = docSnap.data();
+    this.getPenaltyAmount();
+    this.getIntrestCalculation();
+  }
+  inputCleared() {
+    this.selectedCustomer = null;
+  }
+  penaltyPerShareAmount = 0;
+  getPenaltyAmount() {
+    var penaltyPerShare = this.settingData.penaltyOnShare;
+    if (this.selectedCustomer != null) {
+      const date = new Date();  // 2009-11-10
+      const month = date.toLocaleString('default', { month: 'long' });
+      for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
+        const element = this.selectedCustomer.monthlyValue[index];
+        if (element.name == month) {
+          break;
+        }
+        if (element.sharesamount == 0) {
+          this.penaltyPerShareAmount = this.penaltyPerShareAmount + penaltyPerShare;
+        } else {
+          this.penaltyPerShareAmount = 0;
+        }
+      }
+
+    }
+  }
+  intrestAmount = 0;
+  getIntrestCalculation() {
+    var totalLoan = 0;
+    var totalLoanSubmited = 0;
+    for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
+      const element = this.selectedCustomer.monthlyValue[index];
+      totalLoan = totalLoan + element.loan;
+      totalLoanSubmited = totalLoanSubmited + element.loanSubmit;
+    }
+    totalLoan = totalLoan - totalLoanSubmited;
+    if (totalLoan > 0) {
+      this.intrestAmount = (totalLoan * this.settingData.intrest) / 100;
+      this.getPenaltyOfIntrest();
+    }
+  }
+  penaltyIntrestAmount = 0;
+  getPenaltyOfIntrest() {
+    debugger
+    var penaltyPerShare = this.settingData.penaltyOnIntrest;
+    if (this.selectedCustomer != null) {
+      const date = new Date();  // 2009-11-10
+      const month = date.toLocaleString('default', { month: 'long' });
+      for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
+        const element = this.selectedCustomer.monthlyValue[index];
+        if (element.name == month) {
+          break;
+        }
+        if (element.loanIntrest == 0) {
+          this.penaltyIntrestAmount = this.penaltyIntrestAmount + penaltyPerShare;
+        } else {
+          this.penaltyIntrestAmount = 0;
+        }
+      }
+
+    }
+  }
+}

@@ -1,20 +1,74 @@
-<div class="col-xl-2 col-md-3 mb-2" routerLink="/cust" style="cursor: pointer">
+<div class="col-xl-2 col-md-12 mb-2">
+  <div class="form-group">
+    <label for="sel1">Select Year:</label>
+    <select class="form-control" [(ngModel)]="filterOtion" (change)="getCustomerList()">
+      <option value="0">Select Year</option>
+      <option value="2023-2024">2023-2024</option>
+      <option value="2024-2025">2024-2025</option>
+      <option value="2025-2026">2025-2026</option>
+    </select>
+  </div>
+</div>
+<div class="col-xl-2 col-md-3 mb-2"  style="cursor: pointer">
   <div class="card border-left-primary shadow h-100 py-2">
     <div class="card-body">
       <div class="row no-gutters align-items-center">
         <div class="col mr-2">
-          <div
-            class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color: #ffeb00;"
-          >
-            Todays Expence
-            <span
-              class="glyphicon glyphicon-credit-card"
-              style="float: right; font-size: 47px;    color: #ffeb00;"
-            ></span>
+          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color: #0e466e;">
+            Total Fund Amount
+            <span class="glyphicon glyphicon-shopping-cart"
+              style="float: right; font-size: 47px;    color: #0e466e;"></span>
+          </div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800" style="color: #0e466e;">
+           <b> {{
+              (totalSharesAmount + totalIntrestAmount) | currency:'INR':true: '1.0-0'
+            }} </b>
+          </div>
+        </div>
+        <div class="col-auto">
+          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xl-2 col-md-3 mb-2"  style="cursor: pointer">
+  <div class="card border-left-primary shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color: #802aa8;">
+            Per Share Amount
+            <span class="glyphicon glyphicon-retweet"
+              style="float: right; font-size: 47px;    color: #802aa8;"></span>
+          </div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800" style="color: #802aa8;">
+            {{
+              (totalShares > 0 ? (totalSharesAmount + totalIntrestAmount) / totalShares  : 0) | currency:'INR':true: '1.0-0'
+            }} 
+          </div>
+        </div>
+        <div class="col-auto">
+          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xl-2 col-md-3 mb-2"  style="cursor: pointer">
+  <div class="card border-left-primary shadow h-100 py-2">
+    <div class="card-body">
+
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color: #ffeb00;">
+            Total Shares Holder
+            <span class="glyphicon glyphicon-credit-card"
+              style="float: right; font-size: 47px;    color: #ffeb00;"></span>
           </div>
           <div class="h5 mb-0 font-weight-bold text-gray-800">
             {{
-              totalExpence | currency : "&#8377;"
+            totalCust
             }}
           </div>
         </div>
@@ -25,27 +79,65 @@
     </div>
   </div>
 </div>
-<div
-  class="col-xl-2 col-md-3 mb-2"
-  routerLink="/delivery"
-  style="cursor: pointer"
->
+<div class="col-xl-2 col-md-3 mb-2"  style="cursor: pointer">
   <div class="card border-left-primary shadow h-100 py-2">
     <div class="card-body">
       <div class="row no-gutters align-items-center">
         <div class="col mr-2">
-          <div
-            class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color: #ff8100;"
-          >
-            Todays Income
-            <span
-              class="glyphicon glyphicon-briefcase"
-              style="float: right; font-size: 47px;    color: #ff8100;"
-            ></span>
+          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color: #ff8100;">
+            Total Shares
+            <span class="glyphicon glyphicon-briefcase"
+              style="float: right; font-size: 47px;    color: #ff8100;"></span>
           </div>
           <div class="h5 mb-0 font-weight-bold text-gray-800">
             {{
-              totalIncome | currency : "&#8377;"
+            totalShares
+            }}
+          </div>
+        </div>
+        <div class="col-auto">
+          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xl-2 col-md-3 mb-2"  style="cursor: pointer">
+  <div class="card border-left-primary shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color: #27b9d3;">
+            Total Shares Amount
+            <span class="glyphicon glyphicon-fire"
+              style="float: right; font-size: 47px;    color: #27b9d3;"></span>
+          </div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800" style="color: #27b9d3;">
+            {{
+              totalSharesAmount | currency:'INR':true: '1.0-0'
+            }}
+          </div>
+        </div>
+        <div class="col-auto">
+          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xl-2 col-md-3 mb-2"  style="cursor: pointer">
+  <div class="card border-left-primary shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color: #30d32a;">
+            Total Intrest Amount
+            <span class="glyphicon glyphicon-plane"
+              style="float: right; font-size: 47px;    color: #30d32a;"></span>
+          </div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800" style="color: #30d32a;">
+            {{
+              totalIntrestAmount | currency:'INR':true: '1.0-0'
             }}
           </div>
         </div>

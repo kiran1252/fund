@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
     var loginDta = data.docs.map((doc) => doc.data());
     if (loginDta.length > 0) {
       localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('loginData', JSON.stringify(loginDta));
       this.router.navigate(['home']);
       setTimeout(() => {
         location.reload();

@@ -18,30 +18,31 @@ export class NewCustomerComponent implements OnInit {
     private datePipe: DatePipe
   ) {}
   myForm: any;
-  dailyExpenceId: any = null;
-  filterDate: any = new Date();
-  todaysDate: any = new Date();
+  customerId: any = null;
   ngOnInit(): void {
-    this.todaysDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.myForm = this.fb.group({
-      dailyExpenceId: [new Date().valueOf()],
+      customerId: [new Date().valueOf()],
       name: ['', [Validators.required]],
-      type: ['cash', [Validators.required]],
-      amount: [null, [Validators.required]],
-      month: [this.getCurrentMoth(this.filterDate)],
+      shares: ['', [Validators.required]],
+      year: [0, [Validators.required]],
+      price: [0, [Validators.required]],
+      sharesAmount: [0],
+      totalSharesPenaltyAmount: [0],
+      totalLoan: [0],
+      totalLoanSubmited: [0],
+      totalLoanIntrest: [0],
+      isActive: [true],
       createdDate: [this.datePipe.transform(new Date(), 'yyyy-MM-dd')],
-      currentDate:[this.datePipe.transform(new Date(), 'yyyy-MM-dd'), [Validators.required]],
-      entryTimestampDate: [new Date(this.todaysDate).getTime()]
     });
     this.route.paramMap.subscribe((params) => {
       if (params.get('id') != null) {
-        this.dailyExpenceId = params.get('id');
+        this.customerId = params.get('id');
         this.getDataFromDB();
       }
     });
   }
   async getDataFromDB() {
-    const docRef = doc(this.firbaseService.db, 'dailyExpence/' + this.dailyExpenceId);
+    const docRef = doc(this.firbaseService.db, 'Customer/' + this.customerId);
     const docSnap = await getDoc(docRef);
     this.myForm.patchValue(docSnap.data());
   }
@@ -50,45 +51,126 @@ export class NewCustomerComponent implements OnInit {
       form.markAllAsTouched();
       return;
     }
-    this.myForm.value.entryTimestampDate = new Date(this.myForm.value.currentDate).getTime()
-    if (this.dailyExpenceId == null) {
+    if (this.customerId == null) {
+      var json = [
+        {
+          "name": "September",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "October",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "November",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "December",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "January",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "February",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "March",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "April",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "May",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "June",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "July",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        },
+        {
+          "name": "August",
+          "sharesamount": 0,
+          "penalty": 0,
+          "loan": 0,
+          "loanIntrest": 0,
+          "loanSubmit": 0
+        }
+      ];
+      var data = form.value;
+      data["monthlyValue"] = json;
       setDoc(
         doc(
           this.firbaseService.db,
-          'dailyExpence',
-          '' + this.myForm.value.dailyExpenceId
+          'Customer',
+          '' + this.myForm.value.customerId
         ),
-        form.value
+        data
       ).then(() => {
-        alert('Daily expence added successfully!');
+        alert('Customer added successfully!');
         this.router.navigate(['/cust']);
       });
     } else {
       updateDoc(
-        doc(this.firbaseService.db, 'dailyExpence', '' + this.dailyExpenceId),
+        doc(this.firbaseService.db, 'Customer', '' + this.customerId),
         form.value
       ).then(() => {
-        alert('Daily expence updated successfully!');
+        alert('Customer updated successfully!');
         this.router.navigate(['/cust']);
       });
     }
-  }
-  getCurrentMoth(date: any) {
-    const month = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    const d = new Date(date);
-    return month[d.getMonth()];
   }
 }

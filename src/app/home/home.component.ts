@@ -13,58 +13,51 @@ export class HomeComponent implements OnInit {
   constructor(
     private firbaseService: FirbaseService,
     private datePipe: DatePipe
-  ) {}
-  totalExpence: any = 0;
-  totalIncome: any = 0;
-  dailyEntryList: any = [];
+  ) { }
+  totalShares: any = 0;
+  totalSharesAmount: any = 0;
+  totalCust: any = 0;
+  totalIntrestAmount: any = 0;
   filterDate: any = new Date();
   filterFromDate: any = new Date(new Date().getFullYear(), 0, 1);
   filterToDate: any = new Date(new Date().getFullYear(), 11, 31);
   title = 'ng2-charts-demo';
-
+  filterOtion: any = 0;
   public barChartLegend = true;
   public barChartPlugins = [];
-  isShowChart:boolean = false;
-  
-  public barChartOptions: ChartOptions  = {
+  isShowChart: boolean = false;
+
+  public barChartOptions: ChartOptions = {
     responsive: false,
   };
   ngOnInit(): void {
     this.filterDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    this.getDailyEntryList();
-    this.getCustomerList();
+    //this.getCustomerList();
   }
 
   async getCustomerList() {
-    var colData = collection(this.firbaseService.db, 'dailyExpence');
+    var colData = collection(this.firbaseService.db, 'Customer');
     const q = query(
       colData,
-      where('currentDate', '==', this.filterDate)
+      where('year', '==', this.filterOtion)
     );
     const data = await getDocs(q);
-    var dailyExpenceList = data.docs.map((doc) => doc.data());
-    this.totalExpence = dailyExpenceList.reduce(
-      (partialSum: any, a: any) => partialSum + a.amount,
+    var customerList = data.docs.map((doc) => doc.data());
+    this.totalCust = customerList.length;
+    var activeCustomersList = customerList.filter((w:any)=>w.isActive == true);
+    this.totalShares = activeCustomersList.reduce(
+      (partialSum: any, a: any) => partialSum + parseInt(a.shares),
+      0
+    );
+    this.totalSharesAmount = customerList.reduce(
+      (partialSum: any, a: any) => partialSum + parseInt(a.sharesAmount),
+      0
+    );
+    this.totalIntrestAmount = customerList.reduce(
+      (partialSum: any, a: any) => partialSum + parseInt(a.totalLoanIntrest) + parseInt(a.totalSharesPenaltyAmount),
       0
     );
     
   }
 
-  async getDailyEntryList() {
-    var colData = collection(this.firbaseService.db, 'DailyIncomeEntry');
-    const q = query(
-      colData,
-      where('isActive', '==', true),
-      where('createddate', '==', this.filterDate)
-    );
-    const data = await getDocs(q);
-    this.dailyEntryList = data.docs.map((doc) => doc.data());
-    this.totalIncome = this.dailyEntryList.reduce(
-      (partialSum: any, a: any) => partialSum + a.amount,
-      0
-    );
-    
-  }
-
-  
 }

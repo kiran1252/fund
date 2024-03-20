@@ -1,0 +1,71 @@
+<div class="col-md-12 mb-2 p-0">
+  <h4 class="mt-0" style="color: #fff;text-align: center;">Monthly Calculation</h4>
+  <div class="col-xl-6 col-md-6 mb-2">
+    <div class="form-group">
+      <label for="sel1">Select Year:</label>
+      <select class="form-control" [(ngModel)]="filterOtion" (change)="getCustomerList()">
+        <option value="0">Select Year</option>
+        <option value="2023-2024">2023-2024</option>
+        <option value="2024-2025">2024-2025</option>
+        <option value="2025-2026">2025-2026</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="ng-autocomplete">
+      <ng-autocomplete [data]="customerList" #auto [searchKeyword]="keyword" placeholder="Select share holder"
+        (selected)="selectEvent($event)" (inputCleared)="inputCleared()" [itemTemplate]="itemTemplate"
+        [notFoundTemplate]="notFoundTemplate">
+      </ng-autocomplete>
+
+      <ng-template #itemTemplate let-item>
+        <a [innerHTML]="item.name"></a>
+      </ng-template>
+
+      <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div class="col-md-12" *ngIf="selectedCustomer != null">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Share Holder Details</div>
+    <div class="panel-body">
+      <h5>
+        Name : {{ selectedCustomer.name }}(<span style="color: red;">{{ selectedCustomer.shares }}</span>)
+      </h5>
+      <h5>Per Share Price - {{selectedCustomer.price | currency:'INR':true: '1.0-0' }}</h5>
+      <h5><b>Total Shares Amount - {{ (selectedCustomer.price * selectedCustomer.shares) | currency:'INR':true: '1.0-0'}}</b></h5>
+      <h5><b>Penalty - {{penaltyPerShareAmount | currency:'INR':true: '1.0-0'}}</b></h5>
+      <h5><b>Intrest - {{intrestAmount | currency:'INR':true: '1.0-0'}}</b></h5>
+      <h5><b>Intrest Penalty - {{penaltyIntrestAmount | currency:'INR':true: '1.0-0'}}</b></h5>
+      <hr>
+      <h4><b>Total - {{((selectedCustomer.price * selectedCustomer.shares) + penaltyPerShareAmount + intrestAmount + penaltyIntrestAmount ) | currency:'INR':true: '1.0-0'}}</b></h4>
+        <table class="table table-bordered" >
+          <thead>
+            <tr style="background: #064641">
+              <th>Sr.No</th>
+              <th>Name</th>
+              <th>S Amount</th>
+              <th>Loan</th>
+              <th>L Sub</th>
+              <th>Intrest</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of selectedCustomer.monthlyValue ; let i = index" style="color: #000;">
+              <td>
+                {{i + 1}}
+              </td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.sharesamount | currency:'INR':true: '1.0-0' }}</td>
+              <td>{{ item.loan | currency:'INR':true: '1.0-0' }}</td>
+              <td>{{ item.loanSubmit | currency:'INR':true: '1.0-0' }}</td>
+              <td>{{ item.loanIntrest | currency:'INR':true: '1.0-0' }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="col-md-12 mb-2 p-0">
+  <h4 class="mt-0" style="color: #fff;text-align: center;">Monthly Entry</h4>
+  <div class="col-xl-6 col-md-6 mb-2">
+    <div class="form-group">
+      <label for="sel1">Select Year:</label>
+      <select class="form-control" [(ngModel)]="filterOtion" (change)="getCustomerList()">
+        <option value="0">Select Year</option>
+        <option value="2023-2024">2023-2024</option>
+        <option value="2024-2025">2024-2025</option>
+        <option value="2025-2026">2025-2026</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="ng-autocomplete">
+      <ng-autocomplete [data]="customerList" #auto [searchKeyword]="keyword" placeholder="Select share holder"
+        (selected)="selectEvent($event)" (inputCleared)="inputCleared()" [itemTemplate]="itemTemplate"
+        [notFoundTemplate]="notFoundTemplate">
+      </ng-autocomplete>
+
+      <ng-template #itemTemplate let-item>
+        <a [innerHTML]="item.name"></a>
+      </ng-template>
+
+      <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div class="col-md-12" *ngIf="selectedCustomer != null">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Share Holder Details</div>
+    <div class="panel-body">
+      <h5>
+        Name : {{ selectedCustomer.name }}(<span style="color: red;">{{ selectedCustomer.shares }}</span>)
+      </h5>
+      <h5>Per Share Price - {{selectedCustomer.price | currency:'INR':true: '1.0-0' }}</h5>
+      <h5><b>Total Share Amount - {{(selectedCustomer.price * selectedCustomer.shares) | currency:'INR':true: '1.0-0'}}</b></h5>
+      <hr>
+      <h5><b>Submited Amount - {{ getTotalSharesAmount() | currency:'INR':true: '1.0-0' }}</b></h5>
+      <h5><b>Submited Penalty - {{ getTotalpenaltyAmount() | currency:'INR':true: '1.0-0' }}</b></h5>
+      <h5><b>Total Loan - {{ getTotalLoan() | currency:'INR':true: '1.0-0' }}</b></h5>
+      <h5><b>Total Loan Submited - {{ getTotalLoanSubmited() | currency:'INR':true: '1.0-0' }}</b></h5>
+      <h5><b>Total Pending Loan - {{(getTotalLoan() - getTotalLoanSubmited()) | currency:'INR':true: '1.0-0' }}</b></h5>
+      <h5><b>Total Loan Intrest - {{ getTotalLoanIntrest() | currency:'INR':true: '1.0-0' }}</b></h5>
+      <hr>
+
+      <div *ngFor="let item of selectedCustomer.monthlyValue">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <label  style="color: #eb0000;">{{item.name}} </label>
+            <hr style="margin: 0;">
+            <label >Shares Amount </label>
+            <input type="number" class="form-control" [(ngModel)]="item.sharesamount" placeholder="Shares Amount"
+               />
+            <br>
+            <label >Shares Penalty </label>
+            <input type="number" class="form-control" [(ngModel)]="item.penalty" placeholder="Shares Penalty"
+               />
+            <br>
+            <label >Loan </label>
+            <input type="number" class="form-control" [(ngModel)]="item.loan" placeholder="Loan"
+               />
+            <br>
+            <label >Loan Intrest </label>
+            <input type="number" class="form-control" [(ngModel)]="item.loanIntrest" placeholder="Loan Intrest "
+              />
+            <br>
+            <label >Loan Submit </label>
+            <input type="number" class="form-control" [(ngModel)]="item.loanSubmit" placeholder="Loan Submit"
+               />
+               <br>
+            <button type="button" class="btn btn-primary" (click)="submitMonthlyData()" style="float: right;"> Save
+              Monthly Data</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -12,6 +12,12 @@
 .mt-2 {
   margin-top: 4px;
 }
+.mt-3 {
+  margin-top: 6px;
+}
+.mt-4 {
+  margin-top: 8px;
+}
 .mb-2 {
   margin-bottom: 4px;
 }
@@ -25,11 +31,11 @@
   color: #fff;
 }
 .navbar-inverse {
-  background-color: #2c5154;
+  background-color: #542c2c;
   border-color: #080808;
 }
 .navbar-inverse .navbar-brand {
-  color: #fff;
+  color: #ff7513;
 }
 
 .navbar-inverse .navbar-nav>li>a {
@@ -45,4 +51,9 @@ body {
 .container
 {
   padding: 0!important;
+}
+
+.table
+{
+  color: #fff!important;
 }

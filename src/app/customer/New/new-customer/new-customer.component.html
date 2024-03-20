@@ -1,72 +1,47 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <h4 class="mt-0">New Expence</h4>
+    <h4 class="mt-0">New Share Holder</h4>
     <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
       <div class="form-group">
-        <label for="email">Date </label>
-        <input
-          type="date"
-          class="form-control"
-          formControlName="currentDate"
-          id="name"
-        />
-      </div>
-      <div class="form-group">
-        <label for="email">Expence For <label class="text-danger">*</label></label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="name"
-          placeholder="Enter expence details"
-          id="name"
-        />
-        <div
-          class="text-danger"
-          *ngIf="
+        <label for="email">Name <label class="text-danger">*</label></label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Enter Customer Name" id="name" />
+        <div class="text-danger" *ngIf="
             myForm.get('name').invalid &&
             (myForm.get('name').dirty || myForm.get('name').touched)
-          "
-        >
+          ">
           Please provide a name.
         </div>
       </div>
       <div class="form-group">
-        <label for="pwd">Cash/Online <label class="text-danger">*</label> </label>
-        <select class="form-control" formControlName="type"
-        id="type">
-          <option value="cash">Cash</option>
-          <option value="online">Online</option>
-        </select>
-        <div
-          class="text-danger"
-          *ngIf="
-            myForm.get('type').invalid &&
-            (myForm.get('type').dirty || myForm.get('type').touched)
-          "
-        >
-          Please provide type.
+        <label for="pwd">Shares <label class="text-danger">*</label> </label>
+        <input class="form-control" formControlName="shares" id="shares" placeholder="Enter Shares Count">
+        <div class="text-danger" *ngIf="
+            myForm.get('shares').invalid &&
+            (myForm.get('shares').dirty || myForm.get('shares').touched)
+          ">
+          Please provide a shares.
         </div>
       </div>
       <div class="form-group">
-        <label for="pwd">Amount <label class="text-danger">*</label></label>
-        <input
-          type="number"
-          formControlName="amount"
-          class="form-control"
-          placeholder="Enter amount"
-          id="Number"
-        />
-        <div
-          class="text-danger"
-          *ngIf="
-            myForm.get('amount').invalid &&
-            (myForm.get('amount').dirty || myForm.get('amount').touched)
-          "
-        >
-          Please provide a amount.
-        </div>
+        <label for="sel1">Select Share Price:</label>
+        <select class="form-control" formControlName="price">
+          <option value="0">Select Share Price</option>
+          <option value="1000">1000</option>
+          <option value="2000">2000</option>
+          <option value="3000">3000</option>
+          <option value="4000">4000</option>
+        </select>
       </div>
-      <button type="submit" class="btn btn-primary"> {{dailyExpenceId == null ? 'Save' : 'Update'}}</button>
+      <div class="form-group">
+        <label for="sel1">Select Year:</label>
+        <select class="form-control" formControlName="year">
+          <option value="0">Select</option>
+          <option value="2023-2024">2023-2024</option>
+          <option value="2024-2025">2024-2025</option>
+          <option value="2025-2026">2025-2026</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary"> {{customerId == null ? 'Save' : 'Update'}}</button>
       <button type="button" class="btn btn-primary ml-2" routerLink="/cust">
         Cancel
       </button>
