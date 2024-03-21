@@ -60,15 +60,18 @@ export class MonthlyCalculationComponent implements OnInit {
     if (this.selectedCustomer != null) {
       const date = new Date();  // 2009-11-10
       const month = date.toLocaleString('default', { month: 'long' });
+      var loopcnt = 1;
       for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
         const element = this.selectedCustomer.monthlyValue[index];
         if (element.name == month) {
           break;
         }
         if (element.sharesamount == 0) {
-          this.penaltyPerShareAmount = this.penaltyPerShareAmount + penaltyPerShare;
+          this.penaltyPerShareAmount = this.penaltyPerShareAmount + (penaltyPerShare * loopcnt);
+          loopcnt++;
         } else {
           this.penaltyPerShareAmount = 0;
+          loopcnt = 1;
         }
       }
 
@@ -96,20 +99,22 @@ export class MonthlyCalculationComponent implements OnInit {
   }
   penaltyIntrestAmount = 0;
   getPenaltyOfIntrest() {
-    debugger
     var penaltyPerShare = this.settingData.penaltyOnIntrest;
     if (this.selectedCustomer != null) {
       const date = new Date();  // 2009-11-10
       const month = date.toLocaleString('default', { month: 'long' });
+      var loopcnt = 1;
       for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
         const element = this.selectedCustomer.monthlyValue[index];
         if (element.name == month) {
           break;
         }
         if (element.loanIntrest == 0) {
-          this.penaltyIntrestAmount = this.penaltyIntrestAmount + penaltyPerShare;
+          this.penaltyIntrestAmount = this.penaltyIntrestAmount + (penaltyPerShare * loopcnt) ;
+          loopcnt++;
         } else {
           this.penaltyIntrestAmount = 0;
+          loopcnt = 1;
         }
       }
 

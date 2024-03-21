@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.isAuthenticated = localStorage.getItem('isLoggedIn');
     setTimeout(() => {
-      $('#myNavbar').on('click', function () {
+      $('.cliLi').on('click', function () {
         $('.navbar-collapse').collapse('hide');
       });
     }, 2000);
