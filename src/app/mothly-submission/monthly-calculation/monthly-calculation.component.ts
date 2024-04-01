@@ -17,6 +17,11 @@ export class MonthlyCalculationComponent implements OnInit {
   }
   filterOtion: any = 0;
   async getCustomerList() {
+    this.customerList = [];
+    this.selectedCustomer = null;
+    if (this.filterOtion == "0") {
+      return;
+    }
     var colData = collection(this.firbaseService.db, 'Customer');
     const q = query(
       colData,
@@ -40,7 +45,6 @@ export class MonthlyCalculationComponent implements OnInit {
     const data = await getDocs(q);
     var list = data.docs.map((doc) => doc.data());
     this.settingData = list[0];
-    console.log(this.settingData);
   }
 
   selectedCustomer: any;
@@ -50,6 +54,7 @@ export class MonthlyCalculationComponent implements OnInit {
     this.selectedCustomer = docSnap.data();
     this.getPenaltyAmount();
     this.getIntrestCalculation();
+    this.getTotalShareAmount();
   }
   inputCleared() {
     this.selectedCustomer = null;
@@ -60,30 +65,50 @@ export class MonthlyCalculationComponent implements OnInit {
     if (this.selectedCustomer != null) {
       const date = new Date();  // 2009-11-10
       const month = date.toLocaleString('default', { month: 'long' });
-      var loopcnt = 1;
       for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
         const element = this.selectedCustomer.monthlyValue[index];
         if (element.name == month) {
           break;
         }
         if (element.sharesamount == 0) {
-          this.penaltyPerShareAmount = this.penaltyPerShareAmount + (penaltyPerShare * loopcnt);
-          loopcnt++;
+          this.penaltyPerShareAmount = this.penaltyPerShareAmount + (penaltyPerShare * this.selectedCustomer.shares);
         } else {
           this.penaltyPerShareAmount = 0;
-          loopcnt = 1;
         }
       }
 
     }
   }
+
+  totalShareAmount = 0;
+  getTotalShareAmount() {
+    if (this.selectedCustomer != null) {
+      const date = new Date();  // 2009-11-10
+      const month = date.toLocaleString('default', { month: 'long' });
+      for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
+        const element = this.selectedCustomer.monthlyValue[index];
+        if (element.sharesamount == 0) {
+          this.totalShareAmount = this.totalShareAmount + (this.selectedCustomer.shares * this.selectedCustomer.price);
+        } else {
+          this.totalShareAmount = 0;
+        }
+        if (element.name == month) {
+          break
+        }
+      }
+    }
+  }
+
   intrestAmount = 0;
   totalLoan = 0;
   totalLoanSubmited = 0;
   sharesamount = 0;
   loanIntrest = 0;
   getIntrestCalculation() {
-  
+    this.sharesamount = 0;
+    this.totalLoan = 0;
+    this.totalLoanSubmited = 0;
+    this.sharesamount = 0;
     for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
       const element = this.selectedCustomer.monthlyValue[index];
       this.totalLoan = this.totalLoan + element.loan;
@@ -103,18 +128,15 @@ export class MonthlyCalculationComponent implements OnInit {
     if (this.selectedCustomer != null) {
       const date = new Date();  // 2009-11-10
       const month = date.toLocaleString('default', { month: 'long' });
-      var loopcnt = 1;
       for (let index = 0; index < this.selectedCustomer.monthlyValue.length; index++) {
         const element = this.selectedCustomer.monthlyValue[index];
         if (element.name == month) {
           break;
         }
         if (element.loanIntrest == 0) {
-          this.penaltyIntrestAmount = this.penaltyIntrestAmount + (penaltyPerShare * loopcnt) ;
-          loopcnt++;
+          this.penaltyIntrestAmount = this.penaltyIntrestAmount + (penaltyPerShare * this.selectedCustomer.shares);
         } else {
           this.penaltyIntrestAmount = 0;
-          loopcnt = 1;
         }
       }
 

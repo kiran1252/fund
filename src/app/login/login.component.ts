@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
       where('userName', '==', form.value.userName.toLocaleLowerCase()),
       where('password', '==', form.value.password)
     );
+    debugger
     const data = await getDocs(q);
     var loginDta = data.docs.map((doc) => doc.data());
     if (loginDta.length > 0) {

@@ -37,13 +37,13 @@
         </b></h5>
       <h5><b>Per Share Price - {{selectedCustomer.price | currency:'INR':true: '1.0-0' }} </b></h5>
       <hr>
-      <h5><b>Total Shares Amount - {{ (selectedCustomer.price * selectedCustomer.shares) | currency:'INR':true: '1.0-0'}}</b></h5>
+      <h5><b>Total Shares Amount - {{ totalShareAmount | currency:'INR':true: '1.0-0'}}</b></h5>
       
       <h5><b>Shares Penalty - {{penaltyPerShareAmount | currency:'INR':true: '1.0-0'}}</b></h5>
       <h5><b>Intrest - {{intrestAmount | currency:'INR':true: '1.0-0'}}</b></h5>
       <h5><b>Intrest Penalty - {{penaltyIntrestAmount | currency:'INR':true: '1.0-0'}}</b></h5>
       <hr>
-      <h4><b>Total Submission - {{((selectedCustomer.price * selectedCustomer.shares) + penaltyPerShareAmount + intrestAmount + penaltyIntrestAmount ) | currency:'INR':true: '1.0-0'}}</b></h4>
+      <h4><b>Total Submission - {{(totalShareAmount + penaltyPerShareAmount + intrestAmount + penaltyIntrestAmount ) | currency:'INR':true: '1.0-0'}}</b></h4>
         <hr>
         <h4><b>History</b></h4>
       <table class="table table-bordered" >

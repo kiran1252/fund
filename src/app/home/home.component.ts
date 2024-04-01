@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
       where('year', '==', this.filterOtion)
     );
     const data = await getDocs(q);
+    debugger
     var customerList = data.docs.map((doc) => doc.data());
     this.totalCust = customerList.length;
     var activeCustomersList = customerList.filter((w:any)=>w.isActive == true);
@@ -49,15 +50,17 @@ export class HomeComponent implements OnInit {
       (partialSum: any, a: any) => partialSum + parseInt(a.shares),
       0
     );
+    console.log(this.totalShares)
     this.totalSharesAmount = customerList.reduce(
       (partialSum: any, a: any) => partialSum + parseInt(a.sharesAmount),
       0
     );
+    console.log(this.totalSharesAmount)
     this.totalIntrestAmount = customerList.reduce(
       (partialSum: any, a: any) => partialSum + parseInt(a.totalLoanIntrest) + parseInt(a.totalSharesPenaltyAmount),
       0
     );
-    
+    console.log(this.totalIntrestAmount)
   }
 
 }

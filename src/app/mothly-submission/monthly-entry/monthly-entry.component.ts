@@ -17,6 +17,11 @@ export class MonthlyEntryComponent implements OnInit {
   }
   filterOtion: any = 0;
   async getCustomerList() {
+    this.customerList = [];
+    this.selectedCustomer = null;
+    if (this.filterOtion == "0") {
+      return;
+    }
     var colData = collection(this.firbaseService.db, 'Customer');
     const q = query(
       colData,
@@ -54,17 +59,16 @@ export class MonthlyEntryComponent implements OnInit {
       $(".x").trigger("click");
     });
   }
-  getTotalShareAmount()
-  {
+  getTotalShareAmount() {
     var amount = this.selectedCustomer.monthlyValue.reduce(
-      (partialSum: any, a: any) => partialSum + parseInt(a.sharesamount),
+      (partialSum: any, a: any) => partialSum + parseInt(a.sharesamount > 0 ? a.sharesamount : 0),
       0
     );
     return amount;
   }
   getTotalSharesAmount() {
     var amount = this.selectedCustomer.monthlyValue.reduce(
-      (partialSum: any, a: any) => partialSum + parseInt(a.sharesamount),
+      (partialSum: any, a: any) => partialSum + parseInt(a.sharesamount > 0 ? a.sharesamount : 0),
       0
     );
     return amount;
@@ -72,7 +76,7 @@ export class MonthlyEntryComponent implements OnInit {
 
   getTotalpenaltyAmount() {
     var amount = this.selectedCustomer.monthlyValue.reduce(
-      (partialSum: any, a: any) => partialSum + parseInt(a.penalty),
+      (partialSum: any, a: any) => partialSum + parseInt(a.penalty > 0 ? a.penalty : 0),
       0
     );
     return amount;
@@ -80,7 +84,7 @@ export class MonthlyEntryComponent implements OnInit {
 
   getTotalLoan() {
     var amount = this.selectedCustomer.monthlyValue.reduce(
-      (partialSum: any, a: any) => partialSum + parseInt(a.loan),
+      (partialSum: any, a: any) => partialSum + parseInt(a.loan > 0 ? a.loan : 0),
       0
     );
     return amount;
@@ -88,7 +92,7 @@ export class MonthlyEntryComponent implements OnInit {
 
   getTotalLoanSubmited() {
     var amount = this.selectedCustomer.monthlyValue.reduce(
-      (partialSum: any, a: any) => partialSum + parseInt(a.loanSubmit),
+      (partialSum: any, a: any) => partialSum + parseInt(a.loanSubmit > 0 ? a.loanSubmit : 0),
       0
     );
     return amount;
@@ -96,7 +100,7 @@ export class MonthlyEntryComponent implements OnInit {
 
   getTotalLoanIntrest() {
     var amount = this.selectedCustomer.monthlyValue.reduce(
-      (partialSum: any, a: any) => partialSum + parseInt(a.loanIntrest),
+      (partialSum: any, a: any) => partialSum + parseInt(a.loanIntrest > 0 ? a.loanIntrest : 0),
       0
     );
     return amount;
