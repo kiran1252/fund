@@ -71,7 +71,10 @@ export class MonthlyCalculationComponent implements OnInit {
           break;
         }
         if (element.sharesamount == 0) {
-          this.penaltyPerShareAmount = this.penaltyPerShareAmount + (penaltyPerShare * this.selectedCustomer.shares);
+          if(this.penaltyPerShareAmount ==0)
+          this.penaltyPerShareAmount = (this.penaltyPerShareAmount)+ (penaltyPerShare * this.selectedCustomer.shares);
+          else
+          this.penaltyPerShareAmount = this.penaltyPerShareAmount * 2;
         } else {
           this.penaltyPerShareAmount = 0;
         }
@@ -134,7 +137,10 @@ export class MonthlyCalculationComponent implements OnInit {
           break;
         }
         if (element.loanIntrest == 0) {
-          this.penaltyIntrestAmount = this.penaltyIntrestAmount + (penaltyPerShare * this.selectedCustomer.shares);
+          if(this.penaltyIntrestAmount == 0)
+          this.penaltyIntrestAmount = ((this.penaltyIntrestAmount) + (penaltyPerShare * this.selectedCustomer.shares));
+          else
+          this.penaltyIntrestAmount = this.penaltyIntrestAmount * 2;
         } else {
           this.penaltyIntrestAmount = 0;
         }

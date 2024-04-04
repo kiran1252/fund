@@ -68,7 +68,7 @@
               <td >Total</td>
               <td>{{ sharesamount | currency:'INR':true: '1.0-0' }}</td>
               <td>{{ totalLoan | currency:'INR':true: '1.0-0' }}</td>
-              <td>{{ totalLoanSubmited | currency:'INR':true: '1.0-0' }}</td>
+              <td>{{ totalLoanSubmited | currency:'INR':true: '1.0-0' }} <span style="color: red;">(Pending - {{ (totalLoan - totalLoanSubmited) | currency:'INR':true: '1.0-0' }})</span></td>
               <td>{{ loanIntrest | currency:'INR':true: '1.0-0' }}</td>
             </tr>
           </tbody>
